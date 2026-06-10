@@ -41,14 +41,22 @@ def _print_json(report: diff.ChangeReport) -> None:
 
 
 @app.command()
-def init() -> None:
+def init(
+    show_browser: bool = typer.Option(
+        False,
+        "--show-browser",
+        help="Show the login browser window (for troubleshooting).",
+    ),
+) -> None:
     """First-time setup: store credentials, log in, and save a baseline."""
     username = typer.prompt("USCIS email")
     password = typer.prompt("USCIS password", hide_input=True)
     totp_seed = typer.prompt("Authenticator app OTP key (seed)", hide_input=True)
     receipt_number = typer.prompt("Case receipt number")
     try:
-        report = monitor.run_init(username, password, totp_seed, receipt_number)
+        report = monitor.run_init(
+            username, password, totp_seed, receipt_number, headed=show_browser
+        )
     except Exception as exc:  # noqa: BLE001 - top-level CLI boundary
         typer.echo(f"Error: {exc}", err=True)
         raise typer.Exit(code=1)

@@ -33,11 +33,15 @@ def run_check() -> diff.ChangeReport:
 
 
 def run_init(
-    username: str, password: str, totp_seed: str, receipt_number: str
+    username: str,
+    password: str,
+    totp_seed: str,
+    receipt_number: str,
+    headed: bool = False,
 ) -> diff.ChangeReport:
     auth.ensure_browser_installed()
     config.save_secrets(username, password, totp_seed)
-    auth.login_and_save_session(username, password, totp_seed, headed=True)
+    auth.login_and_save_session(username, password, totp_seed, headed=headed)
     state.save_config(receipt_number)
 
     payload = client.fetch_case(receipt_number)

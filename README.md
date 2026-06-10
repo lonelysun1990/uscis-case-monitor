@@ -63,9 +63,10 @@ You will be prompted for:
 - Authenticator app OTP key (the seed from the step above)
 - Case receipt number (e.g. `IOE09343115XX`)
 
-A browser window opens so you can watch the login complete. On success, your
+The login runs in the background (no visible browser). On success, your
 credentials are stored in Keychain, the session is saved, and a baseline of your
-current case status is recorded.
+current case status is recorded. If you want to watch the login (e.g. to
+troubleshoot), run `uscis-case-monitor init --show-browser`.
 
 ## Daily use
 
@@ -79,8 +80,9 @@ uscis-case-monitor check
 - Add `--json` for machine-readable output.
 
 The session is reused between runs; when it expires the tool re-logs-in
-automatically. If an unexpected login prompt (e.g. a CAPTCHA) blocks automatic
-login, re-run `uscis-case-monitor init`.
+automatically in the background. If an unexpected login prompt (e.g. a CAPTCHA)
+blocks automatic login, re-run `uscis-case-monitor init --show-browser` to watch
+and complete it.
 
 ## Optional: run it automatically
 
