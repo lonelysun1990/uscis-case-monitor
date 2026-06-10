@@ -10,14 +10,14 @@ from uscis_case_monitor.core import config
 
 
 def _write_json(path: Path, data: Any) -> None:
-    path.write_text(json.dumps(data, indent=2))
+    path.write_text(json.dumps(data, indent=2), encoding="utf-8")
     os.chmod(path, 0o600)
 
 
 def _read_json(path: Path) -> Any | None:
     if not path.exists():
         return None
-    return json.loads(path.read_text())
+    return json.loads(path.read_text(encoding="utf-8"))
 
 
 def save_config(receipt_number: str) -> None:
