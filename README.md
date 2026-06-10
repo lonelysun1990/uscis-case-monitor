@@ -84,6 +84,30 @@ automatically in the background. If an unexpected login prompt (e.g. a CAPTCHA)
 blocks automatic login, re-run `uscis-case-monitor init --show-browser` to watch
 and complete it.
 
+## Updating
+
+When a new version of the tool is released, reinstall it from GitHub:
+
+```bash
+pipx uninstall uscis-case-monitor
+pipx install git+https://github.com/lonelysun1990/uscis-case-monitor
+```
+
+(Or in a single step: `pipx install --force git+https://github.com/lonelysun1990/uscis-case-monitor`.)
+
+Your saved login and case settings are **kept** — they live in the macOS
+Keychain and app data, not in the tool itself — so you do **not** need to run
+`init` again. Just keep using `uscis-case-monitor check`. After updating you may
+see a one-time macOS prompt to allow Keychain access; click **Always Allow**.
+
+If you *do* re-run `init` after updating and hit a `Can't store password on
+keychain` error, clear the old entries first, then run `init` again:
+
+```bash
+for a in username password totp_seed; do security delete-generic-password -a "$a" -s uscis-case-monitor >/dev/null 2>&1; done
+uscis-case-monitor init
+```
+
 ## Optional: run it automatically
 
 You can schedule `uscis-case-monitor check` with `launchd` or `cron`. This is
