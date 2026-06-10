@@ -40,17 +40,19 @@ def login_and_save_session(
 
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=not headed)
-        context = browser.new_context()
-        page = context.new_page()
-        page.goto(SIGN_IN_URL)
+        try:
+            context = browser.new_context()
+            page = context.new_page()
+            page.goto(SIGN_IN_URL)
 
-        page.get_by_label("Email").fill(username)
-        page.get_by_label("Password").fill(password)
-        page.get_by_role("button", name="Sign in").click()
+            page.get_by_label("Email").fill(username)
+            page.get_by_label("Password").fill(password)
+            page.get_by_role("button", name="Sign in").click()
 
-        page.get_by_label("Secure verification code").fill(current_totp(totp_seed))
-        page.get_by_role("button", name="Submit").click()
+            page.get_by_label("Secure verification code").fill(current_totp(totp_seed))
+            page.get_by_role("button", name="Submit").click()
 
-        page.wait_for_url(LOGGED_IN_URL_GLOB, timeout=30000)
-        context.storage_state(path=str(config.session_path()))
-        browser.close()
+            page.wait_for_url(LOGGED_IN_URL_GLOB, timeout=30000)
+            context.storage_state(path=str(config.session_path()))
+        finally:
+            browser.close()
