@@ -61,7 +61,7 @@ You will be prompted for:
 - USCIS email
 - USCIS password
 - Authenticator app OTP key (the seed from the step above)
-- Case receipt number (e.g. `IOE0934311580`)
+- Case receipt number (e.g. `IOE09343115XX`)
 
 A browser window opens so you can watch the login complete. On success, your
 credentials are stored in Keychain, the session is saved, and a baseline of your
