@@ -1,0 +1,53 @@
+# ---- Secrets & runtime state (NEVER commit) ----
+# App writes session/state to the OS app-data dir (platformdirs), not the repo,
+# but guard against local copies, ad-hoc runs, or misconfiguration.
+storage_state.json
+state.json
+last_response.json
+*.session.json
+.env
+.env.*
+*.secret
+secrets/
+credentials*
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg
+*.egg-info/
+.eggs/
+build/
+dist/
+wheels/
+.installed.cfg
+pip-wheel-metadata/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Test / type / lint caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tox/
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+
+# ---- Playwright ----
+test-results/
+playwright-report/
+playwright/.cache/
+.playwright/
+
+# ---- Editors / OS ----
+.vscode/
+.idea/
+*.swp
+.DS_Store
