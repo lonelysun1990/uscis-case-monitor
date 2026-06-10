@@ -47,7 +47,11 @@ def init() -> None:
     password = typer.prompt("USCIS password", hide_input=True)
     totp_seed = typer.prompt("Authenticator app OTP key (seed)", hide_input=True)
     receipt_number = typer.prompt("Case receipt number")
-    report = monitor.run_init(username, password, totp_seed, receipt_number)
+    try:
+        report = monitor.run_init(username, password, totp_seed, receipt_number)
+    except Exception as exc:  # noqa: BLE001 - top-level CLI boundary
+        typer.echo(f"Error: {exc}", err=True)
+        raise typer.Exit(code=1)
     typer.echo("Setup complete. Baseline saved.")
     _print_human(report)
 
@@ -57,7 +61,11 @@ def check(
     json_output: bool = typer.Option(False, "--json", help="Emit JSON output."),
 ) -> None:
     """Check the case and report whether it changed since the last run."""
-    report = monitor.run_check()
+    try:
+        report = monitor.run_check()
+    except Exception as exc:  # noqa: BLE001 - top-level CLI boundary
+        typer.echo(f"Error: {exc}", err=True)
+        raise typer.Exit(code=1)
     if json_output:
         _print_json(report)
     else:

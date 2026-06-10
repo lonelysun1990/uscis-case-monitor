@@ -39,3 +39,13 @@ def test_check_json_output(monkeypatch):
     assert result.exit_code == 10
     assert '"changed": true' in result.stdout
     assert '"receiptNumber": "IOE0934311580"' in result.stdout
+
+
+def test_check_handles_error_cleanly(monkeypatch):
+    def boom():
+        raise RuntimeError("Not configured. Run `uscis-case-monitor init`.")
+    monkeypatch.setattr(cli.monitor, "run_check", boom)
+    result = runner.invoke(cli.app, ["check"])
+    assert result.exit_code == 1
+    assert "Not configured" in result.output
+    assert "Traceback" not in result.output
